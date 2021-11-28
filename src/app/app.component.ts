@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.makeAPICalls();
     this.ApiStarted = setInterval(()=> {
-      //this.makeAPICalls()
+      this.makeAPICalls()
     },500)
     
   }
@@ -54,8 +54,8 @@ export class AppComponent implements OnInit, OnDestroy {
       var that = this;
       const wazirxAPI = this.http.get<dataResult>('https://x.wazirx.com/api/v2/depth?limit=10&market=usdtinr').subscribe( response => {
         if(response) {
-          console.log(response.asks);
-          this.RightValue = Number(response.asks[0][0]);
+          //console.log(response.asks);
+        this.RightValue = Number(response.asks[0][0]);
 
         //Perform this API call only when the response is available for the first API
         const coincdxAPi =  this.http.get<dataResult>('https://public.coindcx.com/market_data/orderbook?pair=I-USDT_INR').subscribe(data => {
@@ -67,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
             
             prevBidValues.push(parseFloat(items[1].match(/^-?\d+(?:\.\d{0,2})?/)[0]));
 
-            const bidPrice = parseInt(items[0].match(/^-?\d+(?:\.\d{0,2})?/)[0]);
+            const bidPrice = Number(items[0]).toFixed(2);
             const Qty = items[1].match(/^-?\d+(?:\.\d{0,2})?/)[0];
             
 
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
               // return percentageDifference;
 
               that.difffenceinPercentage = (difference / average ) * 100;
-              console.log("difffencePercentage", that.difffenceinPercentage);
+              //console.log("difffencePercentage", that.difffenceinPercentage);
               return that.difffenceinPercentage;
 
             }
@@ -100,7 +100,7 @@ export class AppComponent implements OnInit, OnDestroy {
           
         })
         this.tableData = [...dataTable];
-        console.log("tableData", this.tableData)
+        //console.log("tableData", this.tableData)
         this.changeDetectorRef.detectChanges();
         return this.tableData;    
         
@@ -111,7 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
 
       });
-
+      this.changeDetectorRef.detectChanges();
       
       
 
