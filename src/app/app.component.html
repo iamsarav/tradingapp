@@ -8,52 +8,76 @@
     }
     .headerFont {
         font-size: 14px;
+        font-weight: bold;
+        color: rgb(95, 93, 93);
     }
     .cellStyles {
         vertical-align: middle;
     }
     .InitialPrice {
         font-weight: bold;
-        color: orangered;
+        color: #ee4000;
     }
     .rightPrice {
         font-weight: bold;
         color: blue;
     }
+
+    .nav-pills .nav-link {
+        font-weight: bold;
+    }
+    .nav-pills .nav-link.active.fillOrange {
+        background-color: #ee4000;
+    }
 </style>
 
-<div class="table-holder container">
+<div class="table-holder container pt-1">
 
-    <div class="row">
-        <div class="col col-lg-4"><p class="InitialPrice">{{InitialPrice}}</p></div>
-        <div class="col col-lg-8 "><p class="text-right pull-right rightPrice">{{RightValue}}</p></div>
+    <div class="row mb-2">
+        <!-- <div class="col col-lg-6 text-right"><p class="InitialPrice">{{InitialPrice}}</p></div>
+        <div class="col col-lg-6 text-right"><p class="text-right pull-right rightPrice">{{RightValue}}</p></div> -->
+        <ul class="nav nav-pills nav-fill">
+            <li class="nav-item">
+              <a class="nav-link active fillOrange" aria-current="page" href="#">{{InitialPrice}}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"></a>
+              </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">{{RightValue}}</a>
+              </li>
+
+          </ul>
     </div>   
-<table mat-table [dataSource]="tableData"  class="mat-elevation-z8 table">
-<!-- 
-    <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.BidPrice}} </td>
-      </ng-container> -->
+    <div class="row">
+        <table mat-table [dataSource]="tableData"  class="mat-elevation-z8 table">
+
+    <!-- 
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.BidPrice}} </td>
+        </ng-container> -->
 
 
-    <ng-container matColumnDef="BidPrice">
-        <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">Bid Price</th>
-        <td mat-cell *matCellDef="let element" class="cellStyles">{{element.BidPrice}}</td>
-    </ng-container>
-    <ng-container matColumnDef="Qty">
-        <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">Qty</th>
-        <td mat-cell *matCellDef="let element" class="cellStyles">{{element.Qty}}</td>
-    </ng-container>
-    <ng-container matColumnDef="SumOfQty">
-        <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">SUM</th>
-        <td mat-cell *matCellDef="let element" class="cellStyles">{{element.SumOfQty}}</td>
-    </ng-container>
-    <ng-container matColumnDef="Difference">
-        <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles ">Difference</th>
-        <td mat-cell *matCellDef="let element" class="cellStyles">{{element.Difference}}</td>
-    </ng-container>
+        <ng-container matColumnDef="BidPrice">
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">Bid Price</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles">{{element.BidPrice}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Qty">
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">Qty</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles">{{element.Qty}}</td>
+        </ng-container>
+        <ng-container matColumnDef="SumOfQty">
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">SUM</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles">{{element.SumOfQty}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Difference">
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles ">Difference</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles">{{element.Difference}}</td>
+        </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
 </div>

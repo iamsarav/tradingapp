@@ -1,0 +1,7 @@
+.mat-table.cdk-table.mat-elevation-z8.table > :not(:first-child) {
+    border-top: transparent !important;
+    display: none!important;
+}
+.table tbody {
+    border-top: transparent !important;
+}
