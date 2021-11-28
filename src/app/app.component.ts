@@ -12,11 +12,12 @@ import { map, catchError, tap } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'tradingapp';
-  displayedColumns: string[] = ["BidPrice", "Qty", "SumOfQty"];
+  displayedColumns: string[] = ["BidPrice", "Qty", "SumOfQty", "Difference"];
   ApiStarted: any;
   
   InitialPrice: string;
   RightValue: number;
+  public difffenceinPercentage;
 
   public dataSource;
   public tableData:tableColumns[] = [
@@ -50,16 +51,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public makeAPICalls = () => {
       const dataTable = [];   
-      
+      var that = this;
       const wazirxAPI = this.http.get<dataResult>('https://x.wazirx.com/api/v2/depth?limit=10&market=usdtinr').subscribe( response => {
         if(response) {
           console.log(response.asks);
-          return this.RightValue = Number(response.asks[0][0]);
-        }
-      });
+          this.RightValue = Number(response.asks[0][0]);
 
-      var that = this;
-      const coincdxAPi =  this.http.get<dataResult>('https://public.coindcx.com/market_data/orderbook?pair=I-USDT_INR').subscribe(data => {
+        //Perform this API call only when the response is available for the first API
+        const coincdxAPi =  this.http.get<dataResult>('https://public.coindcx.com/market_data/orderbook?pair=I-USDT_INR').subscribe(data => {
         
         this.InitialPrice = Object.keys(data.bids)[0].match(/^-?\d+(?:\.\d{0,2})?/)[0];
         let prevBidValues = [];
@@ -68,19 +67,20 @@ export class AppComponent implements OnInit, OnDestroy {
             
             prevBidValues.push(parseFloat(items[1].match(/^-?\d+(?:\.\d{0,2})?/)[0]));
 
-            const bidPrice = items[0].match(/^-?\d+(?:\.\d{0,2})?/)[0];
+            const bidPrice = parseInt(items[0].match(/^-?\d+(?:\.\d{0,2})?/)[0]);
             const Qty = items[1].match(/^-?\d+(?:\.\d{0,2})?/)[0];
+            
 
             const differencePercentage = (bidPrice) => {
-              const difference = that.RightValue - parseInt(bidPrice) 
+              const difference = that.RightValue - bidPrice
               let average = (parseInt(bidPrice) + that.RightValue) / 2; 
               // let percentageDifference = (difference / average) * 100;
               // console.log("percentage", percentageDifference);
               // return percentageDifference;
 
-              const difffencePercentage = (difference / average ) * 100;
-              console.log("difffencePercentage", difffencePercentage);
-              return differencePercentage;
+              that.difffenceinPercentage = (difference / average ) * 100;
+              console.log("difffencePercentage", that.difffenceinPercentage);
+              return that.difffenceinPercentage;
 
             }
             differencePercentage(bidPrice);
@@ -92,8 +92,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 const acc = total + value;
                 let result = Math.round((acc + Number.EPSILON) * 100) / 100;
                 return result;
-                }
+                },
               ),
+              "Difference": (that.difffenceinPercentage).toFixed(2)+ '%'
               
             }
           
@@ -105,6 +106,14 @@ export class AppComponent implements OnInit, OnDestroy {
         
 
       })
+
+
+        }
+
+      });
+
+      
+      
 
      
 }
