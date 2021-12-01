@@ -1,83 +1,62 @@
-<style>
-    .fullWidth {
-        width: 100%;
-    }
-    .table-holder {
-        width: 70%;
-        margin: 0 auto;
-    }
-    .headerFont {
-        font-size: 14px;
-        font-weight: bold;
-        color: rgb(95, 93, 93);
-    }
-    .cellStyles {
-        vertical-align: middle;
-    }
-    .InitialPrice {
-        font-weight: bold;
-        color: #ee4000;
-    }
-    .rightPrice {
-        font-weight: bold;
-        color: blue;
-    }
-
-    .nav-pills .nav-link {
-        font-weight: bold;
-    }
-    .nav-pills .nav-link.active.fillOrange {
-        background-color: #ee4000;
-    }
-</style>
-
-<div class="table-holder container pt-1">
+<div class="container container-xl pt-1">
 
     <div class="row mb-2">
         <!-- <div class="col col-lg-6 text-right"><p class="InitialPrice">{{InitialPrice}}</p></div>
         <div class="col col-lg-6 text-right"><p class="text-right pull-right rightPrice">{{RightValue}}</p></div> -->
-        <ul class="nav nav-pills nav-fill">
-            <li class="nav-item">
-              <a class="nav-link active fillOrange" aria-current="page" href="#">{{InitialPrice}}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#"></a>
-              </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">{{RightValue}}</a>
-              </li>
-
-          </ul>
+        <div class="col-12 mb-2">
+            <ul class="nav nav-pills nav-fill pt-1">
+                <li class="nav-item">
+                <a class="nav-link active fillOrange" aria-current="page" href="#">{{InitialPrice}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">{{RightValuetoDisplay}}</a>
+                </li>
+            </ul>
+        </div>
     </div>   
     <div class="row">
-        <table mat-table [dataSource]="tableData"  class="mat-elevation-z8 table">
-
-    <!-- 
-        <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element"> {{element.BidPrice}} </td>
-        </ng-container> -->
-
+        <div class="table-responsive">
+        <table mat-table [dataSource]="tableData"  class="striped mat-elevation-z2 table">
 
         <ng-container matColumnDef="BidPrice">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">Bid Price</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles">{{element.BidPrice}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 80px;">Bid Price</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume">{{element.BidPrice}}</td>
         </ng-container>
         <ng-container matColumnDef="Qty">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">Qty</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles">{{element.Qty}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 90px;">Qty</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-right">{{element.Qty}}</td>
         </ng-container>
         <ng-container matColumnDef="SumOfQty">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles">SUM</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles">{{element.SumOfQty}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 90px;">SUM</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-right">{{element.SumOfQty}}</td>
         </ng-container>
         <ng-container matColumnDef="Difference">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles ">Difference</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles">{{element.Difference}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-center seperatorBorder" style="min-width: 120px;">Difference</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-center seperatorBorder" [ngClass]="element.Difference > 0 ? 'differenceGreen' : 'differenceRed'">{{element.Difference}} %</td>
+        </ng-container>
+        <ng-container matColumnDef="BuyVolume">
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 75px;">Buy Volume</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume">{{element.BuyVolume}}</td>
+        </ng-container>
+        <ng-container matColumnDef="BuyPrice">
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 70px;">Buy Price</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume">{{element.BuyPrice}}</td>
+        </ng-container>
+        <ng-container matColumnDef="SellPrice">
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles sellPriceColumn pl-1" style="min-width: 75px; padding-left: 15px;">Sell Price</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles sellPriceColumn sellPriceVolume" style="padding-left: 15px;">{{element.SellPrice}}</td>
+        </ng-container>
+        <ng-container matColumnDef="SellVolume">
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-left" style="min-width: 90px;">Sell Volume</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-left sellPriceVolume">{{element.SellVolume}}</td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
+        </div>
     </div>
 </div>

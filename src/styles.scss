@@ -4,3 +4,28 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import "~bootstrap/dist/css/bootstrap.min.css";
+
+mat-footer-row, mat-header-row, mat-row {
+    border-bottom-width: 10px;
+  }
+
+  .table tbody, .table>:not(:first-child) {
+    border: transparent!important;
+    border-top: 2px solid #eee !important;
+    
+}
+tr.mat-row, tr.mat-footer-row {
+    height: 42px;
+}
+mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    border-bottom-color: rgb(155 155 155 / 12%) !important;
+}
+.seperatorBorder {
+  border-right: 1px solid #c5c5c5;
+}
+
+@media all and (min-width: 1400px) {
+    .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+      max-width: 900px;
+    }
+}

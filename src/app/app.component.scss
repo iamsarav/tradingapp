@@ -5,3 +5,59 @@
 .table tbody {
     border-top: transparent !important;
 }
+.fullWidth {
+    width: 100%;
+}
+.table-holder {
+    width: 70%;
+    margin: 0 auto;
+}
+.headerFont {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(95, 93, 93);
+}
+.cellStyles {
+    vertical-align: middle;
+    text-align: left;
+}
+.InitialPrice {
+    font-weight: bold;
+    color: #ee4000;
+}
+.rightPrice {
+    font-weight: bold;
+    color: blue;
+}
+
+.nav-pills .nav-link {
+    font-weight: bold;
+}
+.nav-pills .nav-link.active.fillOrange {
+    background-color: #ee4000;
+}
+.table tbody, .table>:not(:first-child) {
+    border: transparent!important;
+    border-top: 2px solid #fff !important;
+    
+}
+.cellStyles.sellPriceColumn {
+    text-align: left;
+}
+.cellStyles.text-right {
+    text-align: right;
+}
+.buyPriceVolume {
+    color: #23ac50;
+}
+.sellPriceVolume {
+    color: #f1432f;
+}
+.differenceGreen {
+    color: #23ac50;
+    font-weight: bold;
+}
+.differenceRed {
+    color: #f1432f;
+    font-weight: bold;
+}

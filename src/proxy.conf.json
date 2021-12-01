@@ -1,7 +1,11 @@
 {
-    "/api/*": {
-        "target": "http://localhost:4200/",
+    "/apiwazirx/": {
+        "target": "https://x.wazirx.com/api/v2/depth?limit=10&market=usdtinr",
         "secure": false,
-        "logLevel": "debug"
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/apiwazirx": ""
+        }
     }
 }
