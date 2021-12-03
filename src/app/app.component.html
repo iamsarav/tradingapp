@@ -1,40 +1,58 @@
 <div class="container container-xl pt-1">
 
-    <div class="row mb-2">
+    <div class="row mb-3">
         <!-- <div class="col col-lg-6 text-right"><p class="InitialPrice">{{InitialPrice}}</p></div>
         <div class="col col-lg-6 text-right"><p class="text-right pull-right rightPrice">{{RightValue}}</p></div> -->
-        <div class="col-12 mb-2">
-            <ul class="nav nav-pills nav-fill pt-1">
-                <li class="nav-item">
-                <a class="nav-link active fillOrange" aria-current="page" href="#">{{InitialPrice}}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">{{RightValuetoDisplay}}</a>
-                </li>
-            </ul>
-        </div>
-    </div>   
+        
+                    <div class="col-sm-5  pt-2">
+                        <form class="row align-center">                     
+                            <div class="form-group col-sm-3">
+                                <!-- <label for="exampleInputEmail1">Enter Sum Value</label> -->
+                                <input type="text" name="sumvalue" class="form-control" style="max-width: 80px;" id="sumvalue" aria-describedby="emailHelp" placeholder="Sum" mandatory [(ngModel)]="suminputvalue" (change)="validateSumAndPercentage(percentageinputvalue)">
+                            </div>
+
+                            <div class="form-group col-sm-3">
+                                <!-- <label for="exampleInputEmail1">Enter Percentage</label> -->
+                                <input type="text" name="percentagevalue"  class="form-control" id="percentagevalue" aria-describedby="emailHelp" placeholder="%"  mandatory [(ngModel)]="percentageinputvalue" (change)="validateSumAndPercentage(percentageinputvalue)">
+                            </div>
+                            <div class="form-group col-sm-3 pull-right">
+                                <!-- <label for="exampleInputEmail1">Enter Percentage</label> -->
+                                <span class="badge badge-custom bg-success fontsize20" [ngClass]="validateSumPercentageLabel? 'bg-success' : 'bg-danger'">{{validateSumPercentageLabel? "Yes" : "No"}}</span>
+                                <!-- <span class="badge badge-custom bg-danger">No</span> -->
+                            </div>        
+                        </form>
+                    </div>
+                    <div class="col-sm-5 pt-2 ml-3">
+                        <ul class="row nav nav-pills nav-fill">
+                            <li class="nav-item mr-1 c-mt-2 col-sm-2" style="max-width: 120px;">
+                                <a class="nav-link active fillOrange mr-1 fontsize20 " style="max-width: 120px;" aria-current="page" href="#">{{initialPrice}}</a>
+                            </li>
+                            <li class="nav-item mr-1 c-mt-2 col-sm-2" style="max-width: 120px;">
+                                <a class="nav-link active mr-1 fontsize20"  aria-current="page" href="#">{{rightValuetoDisplay}}</a>
+                            </li>
+                            
+                            
+                        </ul>
+                    </div>
+    </div>  
     <div class="row">
         <div class="table-responsive">
         <table mat-table [dataSource]="tableData"  class="striped mat-elevation-z2 table">
 
         <ng-container matColumnDef="BidPrice">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 80px;">Bid Price</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume">{{element.BidPrice}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right " style="max-width: 80px;">Bid Price</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume fontBold">{{element.BidPrice}}</td>
         </ng-container>
         <ng-container matColumnDef="Qty">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 90px;">Qty</th>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="max-width: 80px;">Qty</th>
             <td mat-cell *matCellDef="let element" class="cellStyles text-right">{{element.Qty}}</td>
         </ng-container>
         <ng-container matColumnDef="SumOfQty">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 90px;">SUM</th>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="max-width: 70px;">SUM</th>
             <td mat-cell *matCellDef="let element" class="cellStyles text-right">{{element.SumOfQty}}</td>
         </ng-container>
         <ng-container matColumnDef="Difference">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-center seperatorBorder" style="min-width: 120px;">Difference</th>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-center seperatorBorder" style="max-width: 90px;">Difference</th>
             <td mat-cell *matCellDef="let element" class="cellStyles text-center seperatorBorder" [ngClass]="element.Difference > 0 ? 'differenceGreen' : 'differenceRed'">{{element.Difference}} %</td>
         </ng-container>
         <ng-container matColumnDef="BuyVolume">
@@ -42,12 +60,12 @@
             <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume">{{element.BuyVolume}}</td>
         </ng-container>
         <ng-container matColumnDef="BuyPrice">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 70px;">Buy Price</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume">{{element.BuyPrice}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="max-width: 45px;">Buy Price</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume fontBold">{{element.BuyPrice}}</td>
         </ng-container>
         <ng-container matColumnDef="SellPrice">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles sellPriceColumn pl-1" style="min-width: 75px; padding-left: 15px;">Sell Price</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles sellPriceColumn sellPriceVolume" style="padding-left: 15px;">{{element.SellPrice}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles sellPriceColumn pl-1" style="max-width: 48px; padding-left: 15px;">Sell Price</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles sellPriceColumn sellPriceVolume fontBold" style="padding-left: 15px;">{{element.SellPrice}}</td>
         </ng-container>
         <ng-container matColumnDef="SellVolume">
             <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-left" style="min-width: 90px;">Sell Volume</th>

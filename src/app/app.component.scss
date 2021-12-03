@@ -56,8 +56,21 @@
 .differenceGreen {
     color: #23ac50;
     font-weight: bold;
+    font-size: 18px;
 }
 .differenceRed {
     color: #f1432f;
+    font-weight: bold;
+    font-size: 18px;
+}
+.badge.badge-custom {
+    padding: 0.4rem 4rem;
+    //font-size: 1.2em;
+    font-weight: bold;
+}
+.fontsize20 {
+    font-size: 25px;
+}
+.fontBold {
     font-weight: bold;
 }

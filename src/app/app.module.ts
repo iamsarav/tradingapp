@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http/'
 
 import { MatSliderModule } from '@angular/material/slider';
 import {MatTableModule} from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {MatTableModule} from '@angular/material/table';
     BrowserAnimationsModule,
     HttpClientModule,
     MatSliderModule,
-    MatTableModule
+    MatTableModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

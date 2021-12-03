@@ -29,3 +29,12 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
       max-width: 900px;
     }
 }
+@media all and (max-width: 991px) {
+  .c-mt-2 {
+    margin-top: 20px;
+  }
+}
+
+.nav .nav-item {
+  margin-right: 1.5%;
+}
