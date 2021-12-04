@@ -34,7 +34,10 @@ mat-row, mat-header-row, mat-footer-row, th.mat-header-cell, td.mat-cell, td.mat
     margin-top: 20px;
   }
 }
-
-.nav .nav-item {
-  margin-right: 1.5%;
+.pr-0 {
+  padding-right: 0 !important;
 }
+
+// .nav .nav-item {
+//   margin-right: 1.5%;
+// }

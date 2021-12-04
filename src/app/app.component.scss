@@ -64,8 +64,7 @@
     font-size: 18px;
 }
 .badge.badge-custom {
-    padding: 0.4rem 4rem;
-    //font-size: 1.2em;
+    padding: 0.4rem 2.5rem;
     font-weight: bold;
 }
 .fontsize20 {
@@ -73,4 +72,7 @@
 }
 .fontBold {
     font-weight: bold;
+}
+.form-control {
+    padding: .375rem 5px;
 }
