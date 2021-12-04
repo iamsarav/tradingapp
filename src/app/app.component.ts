@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, Input, ViewEncapsulation } from '@angular/core';
-
+import { Subject } from 'rxjs';
+import { share } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public sumArray: Array<[]> = [];
   public percentageArray: Array<[]> = [];
+  public SUMINPUTKEY: number;
+  public PERCENTAGEINPUTKEY: number;
 
   public dataSource;
   public tableData: tableColumns[] = [
@@ -41,37 +44,90 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(private http: HttpClient, private changeDetectorRef: ChangeDetectorRef) {
     //this.getFirstAPI();
+    this.start();
   }
   ngOnInit() {
+    let suminputkey = localStorage.getItem("SUMINPUTKEY");
+    let percentageinputkey = localStorage.getItem("PERCENTAGEINPUTKEY");
+
+    if(suminputkey !== undefined && percentageinputkey !== undefined) {
+      this.suminputvalue = suminputkey;
+      this.percentageinputvalue = percentageinputkey;
+      //this.onSubject.next({ key: suminputkey, value: percentageinputkey})
+    }
     this.makeAPICalls();
     this.apiStarted = setInterval(() => {
-      this.makeAPICalls()
+      this.makeAPICalls();
     }, 500)
+  }
 
+  private onSubject = new Subject<{ key: string, value: any }>();
+  //public changes = this.onSubject.asObservable().pipe(share());
+
+  private start(): void {
+    window.addEventListener("storage", this.storageEventListener.bind(this));
+  }
+
+  private stop(): void {
+    window.removeEventListener("storage", this.storageEventListener.bind(this));
+    this.onSubject.complete();
+  }
+
+  private storageEventListener(event: StorageEvent) {
+    if (event.storageArea == localStorage) {
+      
+      let v;
+      try { v = JSON.parse(event.newValue);
+          if(event.key == "SUMINPUTKEY") {
+              this.suminputvalue = event.newValue
+          }
+          else if (event.key == "PERCENTAGEINPUTKEY") {
+              this.percentageinputvalue = event.newValue
+          }
+        }
+      catch (e) { v = event.newValue; }
+      this.onSubject.next({ key: event.key, value: v });
+    }
   }
 
   ngOnDestroy() {
     clearInterval(this.apiStarted);
+    this.stop();
   }
 
   validateSumAndPercentage = (event?) => {
     if(this.suminputvalue !== undefined && this.suminputvalue !== null && this.percentageinputvalue !== undefined && this.percentageinputvalue !== null && !isNaN(this.suminputvalue) && !isNaN(this.percentageinputvalue)) {
-      const sumAvailable = this.sumArray.find((item)=> {        
-        return item > this.suminputvalue
-      })
-      console.log("sumAvailable", sumAvailable);
-      const percentageAvailable = this.percentageArray.find((item)=> {
-        return item > this.percentageinputvalue
-      })
 
-      if(sumAvailable && percentageAvailable) {
-        this.validateSumPercentageLabel = true;
+      let oldSUMINPUTKEY = localStorage.getItem("SUMINPUTKEY");
+      let oldPERCENTAGEINPUTKEY = localStorage.getItem("PERCENTAGEINPUTKEY");
+
+      localStorage.setItem("SUMINPUTKEY", this.suminputvalue);
+      localStorage.setItem("PERCENTAGEINPUTKEY", this.percentageinputvalue);
+
+      this.onSubject.subscribe((value)=> {
+        console.log("Subscribed Value", value);
+        if(value.key == "SUMINPUTKEY") {
+          this.suminputvalue = value.value
+        }
+        else {
+          this.percentageinputvalue = value.value
+        }
+      })
+       //this.onSubject.next({ key: event.key, value: v });
+
+
+
+      for(let i=0; i<this.tableData.length; i++) {
+        if(parseFloat(this.tableData[i].Difference) > parseFloat(this.percentageinputvalue) && (this.tableData[i].SumOfQty).replace(/,/g, '') > this.suminputvalue) {
+
+          this.validateSumPercentageLabel = true;
+        }
+        else {
+          this.validateSumPercentageLabel = false
+        }
       }
-      else {
-        this.validateSumPercentageLabel = false
-      }
+      
     }
-
 
   }
 
@@ -98,7 +154,9 @@ export class AppComponent implements OnInit, OnDestroy {
             let prevBidValues = [];
 
             let bidsEntries = Object.entries(coinCDXdata.bids).forEach(function (items, index) {
-              if (index >= 500) {
+
+              let indexFlag = Math.min( wazirxData.bids.length, wazirxData.asks.length, Object.entries(coinCDXdata.bids).length);
+              if (index >= indexFlag-1) {
                 return true
               } else {
                 prevBidValues.push(parseFloat(items[1].match(/^-?\d+(?:\.\d{0,2})?/)[0]));
@@ -112,8 +170,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
                 let wazirxDataBuyPrice = Number(wazirxData.bids[index][0]).toFixed(2);
-                let wazirxDataBuyVolume = parseInt(wazirxData.bids[index][1]) == 0 ? 1 : parseInt(wazirxData.bids[index][1]); 
-                //Number(wazirxData.bids[index][1]).toFixed(2);
+                let wazirxDataBuyVolume = parseInt(wazirxData.bids[index][1]) == 0 ? 1 : parseInt(wazirxData.bids[index][1]);
                 let wazirxDataSellPrice = Number(wazirxData.asks[index][0]).toFixed(2);
                 let wazirxDataSellVolume = parseInt(wazirxData.asks[index][1]) == 0 ? 1 : parseInt(wazirxData.asks[index][1]); 
 
@@ -201,5 +258,6 @@ export interface tableColumns {
   BidPrice: string[];
   Qty: string[];
   Sum?: string;
-  Difference?: String;
+  Difference?: string;
+  SumOfQty: string;
 }
