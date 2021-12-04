@@ -40,7 +40,7 @@
         <table mat-table [dataSource]="tableData"  class="striped mat-elevation-z2 table">
 
         <ng-container matColumnDef="BidPrice">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right " style="max-width: 80px;">Bid Price</th>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right " style="max-width: 80px;">Bid</th>
             <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume fontBold">{{element.BidPrice}}</td>
         </ng-container>
         <ng-container matColumnDef="Qty">
@@ -52,23 +52,26 @@
             <td mat-cell *matCellDef="let element" class="cellStyles text-right">{{element.SumOfQty}}</td>
         </ng-container>
         <ng-container matColumnDef="Difference">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-center seperatorBorder" style="max-width: 90px;">Difference</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles text-center seperatorBorder" [ngClass]="element.Difference > 0 ? 'differenceGreen' : 'differenceRed'">{{element.Difference}} %</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-center seperatorBorder" style="max-width: 90px; min-width: 90px;">Change</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-center seperatorBorder" [ngClass]="element.Difference > 0 ? 'differenceGreen' : 'differenceRed'" style="min-width: 90px;">{{element.Difference}} %</td>
         </ng-container>
+
+
+
         <ng-container matColumnDef="BuyVolume">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 75px;">Buy Volume</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume">{{element.BuyVolume}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="min-width: 100px;">Vol &nbsp;&nbsp;&nbsp;</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume"  style="min-width: 100px;">{{element.BuyVolume}}</td>
         </ng-container>
         <ng-container matColumnDef="BuyPrice">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" style="max-width: 45px;">Buy Price</th>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-right" >Buy&nbsp;&nbsp;&nbsp;</th>
             <td mat-cell *matCellDef="let element" class="cellStyles text-right buyPriceVolume fontBold">{{element.BuyPrice}}</td>
         </ng-container>
         <ng-container matColumnDef="SellPrice">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles sellPriceColumn pl-1" style="max-width: 48px; padding-left: 15px;">Sell Price</th>
-            <td mat-cell *matCellDef="let element" class="cellStyles sellPriceColumn sellPriceVolume fontBold" style="padding-left: 15px;">{{element.SellPrice}}</td>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles sellPriceColumn pl-1" style="padding-left: 30px;max-width: 50px;">Sell</th>
+            <td mat-cell *matCellDef="let element" class="cellStyles sellPriceColumn sellPriceVolume fontBold" style="padding-left: 30px;max-width: 50px;">{{element.SellPrice}}</td>
         </ng-container>
         <ng-container matColumnDef="SellVolume">
-            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-left" style="min-width: 90px;">Sell Volume</th>
+            <th mat-header-cell *matHeaderCellDef class="headerFont cellStyles text-left">Vol</th>
             <td mat-cell *matCellDef="let element" class="cellStyles text-left sellPriceVolume">{{element.SellVolume}}</td>
         </ng-container>
 

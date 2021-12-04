@@ -117,15 +117,21 @@ export class AppComponent implements OnInit, OnDestroy {
 
 
 
-      for(let i=0; i<this.tableData.length; i++) {
-        if(parseFloat(this.tableData[i].Difference) > parseFloat(this.percentageinputvalue) && (this.tableData[i].SumOfQty).replace(/,/g, '') > this.suminputvalue) {
+      const sumPercentageAvailable = this.tableData.find((item, i)=>{
 
-          this.validateSumPercentageLabel = true;
+        // console.log(item);
+        // console.log(parseFloat(item.Difference) , parseFloat(this.percentageinputvalue) , parseInt((item.SumOfQty).replace(/,/g, '')) , parseInt(this.suminputvalue))
+
+        if(parseFloat(item.Difference) > parseFloat(this.percentageinputvalue) && parseInt((item.SumOfQty).replace(/,/g, '')) > parseInt(this.suminputvalue)) {
+
+          console.log("Condition Met");
+          return true;
+
         }
-        else {
-          this.validateSumPercentageLabel = false
-        }
-      }
+      })
+
+      //Change the Yes No variable to update the button
+      sumPercentageAvailable ?  this.validateSumPercentageLabel = true :  this.validateSumPercentageLabel = false;
       
     }
 
@@ -239,13 +245,12 @@ export class AppComponent implements OnInit, OnDestroy {
             this.tableData = [...dataTable];
             this.validateSumAndPercentage();
             this.changeDetectorRef.detectChanges();
-            return this.tableData;
+            return this.tableData;  
         })
 
-        
       }
     })
-    this.changeDetectorRef.detectChanges();
+    //this.changeDetectorRef.detectChanges();
 
   }
 }
