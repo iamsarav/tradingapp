@@ -12,7 +12,7 @@ import { share } from 'rxjs/operators';
   styleUrls: ['./app.component.scss']
 })
 export class DefaultComponent{
-  title = 'tradingapp';
+  header = 'tradingapp';
   displayedColumns: string[] = ["BidPrice", "Qty", "SumOfQty", "Difference", "BuyVolume", "BuyVolumeSum", "BuyPrice", "SellPrice","SellVolumeSum", "SellVolume"];
   apiStarted: any;
 
@@ -85,7 +85,8 @@ export class DefaultComponent{
     if (event.storageArea == localStorage) {
       
       let v;
-      try { v = JSON.parse(event.newValue);
+      try {         
+          v = JSON.parse(event.newValue);
           if(event.key == "SUMINPUTKEY") {
               this.suminputvalue = event.newValue
           }
@@ -125,9 +126,6 @@ export class DefaultComponent{
 
 
       const sumPercentageAvailable = this.tableData.find((item, i)=>{
-
-        // console.log(item);
-        // console.log(parseFloat(item.Difference) , parseFloat(this.percentageinputvalue) , parseInt((item.SumOfQty).replace(/,/g, '')) , parseInt(this.suminputvalue))
 
         if(parseFloat(item.Difference) >= parseFloat(this.percentageinputvalue) && parseInt((item.SumOfQty).replace(/,/g, '')) >= parseInt(this.suminputvalue)) {
 
